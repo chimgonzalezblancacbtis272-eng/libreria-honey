@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+
+{% block contenido %}
+
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+
+        <section class="form-card p-4">
+
+
+            <h1 class="section-title">
+
+                Editar libro ✏️
+
+            </h1>
+
+
+            <p class="text-secondary">
+
+                Puedes cambiar el nombre,
+                la categoría o reemplazar el PDF.
+
+            </p>
+
+
+
+            <form
+
+                method="post"
+
+                action="{{ url_for(
+                    'editar',
+                    id=libro._id
+                ) }}"
+
+                enctype="multipart/form-data"
+
+                class="row g-3"
+
+            >
+
+
+                <div class="col-12">
+
+                    <label class="form-label">
+
+                        Nombre del libro
+
+                    </label>
+
+
+                    <input
+
+                        name="titulo"
+
+                        class="form-control"
+
+                        value="{{ libro.titulo }}"
+
+                        required
+
+                        maxlength="150"
+
+                    >
+
+                </div>
+
+
+
+                <div class="col-12">
+
+                    <label class="form-label">
+
+                        Categoría
+
+                    </label>
+
+
+                    <select
+
+                        name="categoria"
+
+                        class="form-select"
+
+                        required
+
+                    >
+
+                        {% for cat in categorias %}
+
+                        <option
+
+                            value="{{ cat }}"
+
+                            {% if libro.categoria == cat %}
+                                selected
+                            {% endif %}
+
+                        >
+
+                            {{ cat }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="col-12">
+                    <label class="form-label">Cambiar imagen de portada (opcional)</label>
+                    {% if libro.get('portada_id') %}
+                    <div class="mb-2"><img src="{{ url_for('ver_portada', id=libro._id) }}" alt="Portada actual" style="max-height:180px;max-width:140px;border-radius:12px;object-fit:cover"></div>
+                    {% endif %}
+                    <input id="portada-editar" type="file" name="portada" class="form-control" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
+                    <div class="form-text">Puedes elegir una foto de tu dispositivo. Si no eliges otra, se conserva la portada actual.</div>
+                    <div class="mt-3" id="preview-editar-wrap" hidden>
+                        <span class="form-text d-block mb-2">Vista previa de la nueva portada:</span>
+                        <img id="preview-editar" class="portada-preview" alt="Vista previa de la nueva portada">
+                    </div>
+                </div>
+
+                <div class="col-12">
+
+                    <label class="form-label">
+
+                        Reemplazar PDF
+                        (opcional)
+
+                    </label>
+
+
+                    <input
+
+                        type="file"
+
+                        name="pdf"
+
+                        class="form-control"
+
+                        accept="application/pdf,.pdf"
+
+                    >
+
+
+                    <div class="form-text">
+
+                        Si no seleccionas otro PDF,
+                        se conserva el actual.
+
+                    </div>
+
+                </div>
+
+
+
+                <div
+                    class="col-12 d-flex
+                           gap-2 flex-wrap"
+                >
+
+
+                    <button
+
+                        class="btn btn-honey"
+
+                        type="submit"
+
+                    >
+
+                        Guardar cambios
+
+                    </button>
+
+
+
+                    <a
+
+                        class="btn btn-outline-dark"
+
+                        target="_blank"
+
+                        href="{{ url_for(
+                            'ver_pdf',
+                            id=libro._id
+                        ) }}"
+
+                    >
+
+                        📖 Ver PDF actual
+
+                    </a>
+
+
+
+                    <a
+
+                        class="btn btn-outline-secondary"
+
+                        href="{{ url_for('inicio') }}"
+
+                    >
+
+                        Cancelar
+
+                    </a>
+
+
+                </div>
+
+
+            </form>
+
+
+        </section>
+
+
+    </div>
+
+</div>
+
+
+<script>
+(() => {
+ const input = document.getElementById('portada-editar');
+ const img = document.getElementById('preview-editar');
+ const wrap = document.getElementById('preview-editar-wrap');
+ if (!input || !img || !wrap) return;
+ let objectUrl;
+ input.addEventListener('change', () => {
+   const file = input.files && input.files[0];
+   if (objectUrl) URL.revokeObjectURL(objectUrl);
+   if (!file) { wrap.hidden = true; return; }
+   if (!['image/jpeg','image/png','image/webp'].includes(file.type)) { input.value=''; wrap.hidden=true; alert('Elige una imagen JPG, PNG o WEBP.'); return; }
+   objectUrl = URL.createObjectURL(file); img.src = objectUrl; wrap.hidden = false;
+ });
+})();
+</script>
+
+{% endblock %}
