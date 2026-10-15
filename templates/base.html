@@ -76,9 +76,17 @@
                     <a class="nav-link" href="{{ url_for('inicio') }}#libros">Mis libros</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('inicio') }}#agregar">Subir libro</a>
-                </li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('ver_merch') }}">Merch</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('ver_carrito') }}">🛒 Carrito ({{ cantidad_carrito }})</a></li>
+                {% if usuario_actual and usuario_actual.get('rol') == 'admin' %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('admin') }}">Admin</a></li>
+                {% endif %}
+                {% if usuario_actual %}
+                <li class="nav-item"><span class="nav-link">Hola, {{ usuario_actual.nombre }}</span></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('cerrar_sesion') }}">Salir</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('iniciar_sesion') }}">Iniciar sesión</a></li>
+                {% endif %}
 
 
                 <li class="nav-item">
@@ -103,6 +111,9 @@
 
 
 <main class="container py-4">
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+      {% for categoria, mensaje in mensajes %}<div class="alert alert-{{ categoria }} alert-dismissible fade show" role="alert">{{ mensaje }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}
+    {% endwith %}
 
     {% block contenido %}
 
