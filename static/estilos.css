@@ -1,0 +1,366 @@
+body {
+    background: #240505;
+    color: #c9af87;
+}
+
+
+.honey-nav {
+    background: #1a0000;
+}
+
+
+.hero {
+    background: linear-gradient(
+        135deg,
+        #1a0000,
+        #ffe1a8
+    );
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(91, 70, 54, .10);
+}
+
+
+.hero h1,
+.section-title {
+    font-weight: 800;
+}
+
+
+.category-card {
+
+    display: block;
+
+    min-height: 180px;
+
+    padding: 24px;
+
+    border-radius: 22px;
+
+    text-decoration: none;
+
+    color: #3f3326;
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+}
+
+
+.category-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,.10);
+
+    color: #704920;
+}
+
+
+.category-card h3 {
+
+    font-size: 1.15rem;
+
+    margin-top: 14px;
+
+    font-weight: 800;
+}
+
+
+.category-card span:last-child {
+
+    font-size: .9rem;
+
+}
+
+
+.escuela {
+    background: #af8a59;
+    color:#240505;
+}
+
+
+.ficcion {
+    background: #a38559;
+    color:#240505
+}
+
+
+.terror {
+    background: #ffd5a1;
+    color:#341010
+
+}
+
+
+.romance {
+    background:#d3bd8f ;
+    color:#240505
+}
+
+
+.emoji {
+
+    font-size: 2.5rem;
+
+}
+
+
+.form-card,
+.book-card,
+.empty-state {
+
+    background: rgb(66 22 22);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 7px 25px
+        rgba(255, 196, 113, 0.99);
+}
+
+
+.form-control,
+.form-select {
+
+    border-radius: 12px;
+
+    padding: 11px 13px;
+
+}
+
+
+.btn-honey {
+
+    background: #e6ad32;
+
+    border-color: #e6ad32;
+
+    color: #3f3326;
+
+    font-weight: 700;
+}
+
+
+.btn-honey:hover {
+
+    background: #d79d22;
+
+    border-color: #d79d22;
+
+    color: #246b18;
+
+}
+
+
+.book-card {
+
+    overflow: hidden;
+
+}
+
+
+.pdf-cover {
+
+    height: 190px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff0b8,
+            #f8d98b
+        );
+
+    color: #5b4636;
+
+}
+
+
+.pdf-icon {
+
+    font-size: 5rem;
+
+    line-height: 1;
+
+}
+
+
+.pdf-cover span {
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-top: 8px;
+
+}
+
+
+.badge-category {
+
+    background: #fff0b8;
+
+    color: #5b4636;
+
+    font-weight: 600;
+
+}
+
+
+.pdf-name {
+
+    color: #8a6f59;
+
+    font-size: .9rem;
+
+    min-height: 42px;
+
+    word-break: break-word;
+
+}
+
+
+footer {
+
+    color: #8a6f59;
+
+}
+/* Estantería visual de libros */
+.book-cover {
+    min-height: 270px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    text-decoration: none;
+    color: #32100e;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at top right, #ffe4ad, transparent 42%), linear-gradient(145deg, #b88d59, #f7dca5);
+    transition: transform .25s ease, filter .25s ease;
+}
+.book-cover:hover { color: #32100e; filter: brightness(1.04); }
+.book-cover img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.cover-decoration { font-size: 3.6rem; filter: drop-shadow(0 5px 8px #6b3d3333); }
+.cover-label { font-size:.68rem; letter-spacing:3px; font-weight:800; opacity:.72; }
+.book-cover strong { font-family: Georgia, serif; font-size:1.45rem; line-height:1.25; max-width:95%; overflow-wrap:anywhere; }
+.cover-cta { margin-top:6px; border:1px solid #5a332c88; border-radius:999px; padding:7px 16px; font-size:.82rem; font-weight:700; }
+.book-cover.ficción { background:linear-gradient(145deg,#8e7bb2,#f0d9ff); }
+.book-cover.terror { background:radial-gradient(circle at 75% 20%,#75556f,transparent 40%),linear-gradient(145deg,#171126,#62435f); color:#fff0d4; }
+.book-cover.romance { background:radial-gradient(circle at 20% 15%,#fff0e8,transparent 38%),linear-gradient(145deg,#e99caa,#ffe0bc); }
+.book-cover.libros-de-la-escuela { background:radial-gradient(circle at 80% 10%,#fff0b8,transparent 38%),linear-gradient(145deg,#6d927d,#d5e4b7); }
+.empty-library { border:1px dashed #bd9366; border-radius:20px; background:#fff8e9; color:#684538; }
+
+
+/* Mejoras para administrar libros y elegir portadas */
+.book-card { color: #f7e7ca; border: 1px solid #8d623b; }
+.book-card .h5 { color: #ffe1a8; overflow-wrap: anywhere; }
+.book-card .pdf-name { color: #e1c9ad; }
+.book-card .btn-outline-dark { color: #fff3dd; border-color: #e6c18a; background: #3b1717; font-weight: 700; }
+.book-card .btn-outline-dark:hover { color: #240505; background: #ffe1a8; }
+.book-card .btn-outline-danger { color: #fff; border-color: #ff9b9b; background: #8f2020; font-weight: 700; }
+.book-card .btn-outline-danger:hover { color: #fff; background: #b82020; }
+.book-card .btn-honey { color: #241008; font-weight: 800; }
+.portada-preview { display: block; max-width: 180px; max-height: 240px; width: auto; height: auto; object-fit: contain; border-radius: 12px; border: 2px solid #e6ad32; box-shadow: 0 5px 18px #0003; }
+.cover-image-title { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 12px; color: #fff; font-weight: 800; font-size: 1.1rem; text-shadow: 0 2px 5px #000; background: linear-gradient(transparent, #180808dc); overflow-wrap: anywhere; }
+.book-cover { border-radius: 18px 18px 0 0; }
+#libros { scroll-margin-top: 90px; }
+.form-text { color: #e1c9ad; }
+
+
+/* Acciones siempre visibles en cada tarjeta de libro */
+.book-actions {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 18px !important;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 224, 177, .35);
+    position: relative;
+    z-index: 5;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+.book-actions .btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: .92rem;
+    font-weight: 800;
+    line-height: 1.25;
+    white-space: nowrap;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative;
+    z-index: 6;
+}
+.book-actions .btn-edit-book {
+    background: #fff0c9 !important;
+    color: #32100e !important;
+    border: 2px solid #e6ad32 !important;
+}
+.book-actions .btn-delete-book {
+    background: #a51f2b !important;
+    color: #ffffff !important;
+    border: 2px solid #ffb4b4 !important;
+}
+.book-actions .delete-book-form { display: inline-flex !important; margin: 0; }
+.book-card > div { min-width: 0; }
+
+
+/* Nuevas secciones: conservan la paleta vino y dorado de Honey */
+.form-card,.cart-line,.promo-card { background:#310b0b; color:#e8d2ad; border:1px solid #775126; border-radius:20px; box-shadow:0 8px 24px rgba(0,0,0,.16); }
+.form-control,.form-select { background:#fffaf1; color:#2a0909; border-color:#b99155; }
+.form-control:focus,.form-select:focus { border-color:#d8a84e; box-shadow:0 0 0 .2rem rgba(216,168,78,.2); }
+.btn-honey { background:#d7aa58; color:#260606; border:1px solid #e6c47f; font-weight:700; }
+.btn-honey:hover { background:#efcb83; color:#260606; }
+.promo-card { overflow:hidden; }
+.promo-card img { width:100%; height:180px; object-fit:cover; display:block; }
+.promo-placeholder,.merch-placeholder { min-height:180px; display:flex; align-items:center; justify-content:center; font-size:3rem; background:linear-gradient(135deg,#4b1010,#b48743); }
+.merch-cover { width:100%; height:250px; object-fit:cover; display:block; }
+.price-tag { color:#f0c56e; font-size:1.35rem; font-weight:800; }
+.search-bar .form-control { min-width:0; }
+.cart-thumb { width:90px; height:90px; object-fit:cover; border-radius:12px; flex-shrink:0; }
+.admin-row { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1rem 0; border-bottom:1px solid #775126; }
+.admin-offer-thumb { display:block; margin-top:.5rem; width:110px; height:70px; object-fit:cover; border-radius:8px; }
+@media(max-width:575px) { .admin-row { align-items:flex-start; } .cart-line { flex-wrap:wrap; } }
+
+.admin-edit-summary { color:#f0c56e; cursor:pointer; font-weight:700; }
+
+
+/* Carrusel Honey: ocupa el mismo ancho que la franja de bienvenida, sin franjas laterales */
+.honey-carousel-wrap { display:block; width:100%; max-width:100%; margin:0 auto 3rem; padding:0; }
+.honey-carousel, .honey-carousel * { box-sizing:border-box; }
+.honey-carousel { position:relative; display:block; width:100%; max-width:100%; overflow:hidden; border:0 !important; outline:0 !important; box-shadow:none !important; border-radius:16px; background:transparent; isolation:isolate; }
+.honey-carousel-track { position:relative; display:block; width:100%; aspect-ratio:16 / 5; min-height:220px; max-height:500px; overflow:hidden; background:transparent; }
+.honey-carousel-slide { position:absolute; inset:0; width:100%; height:100%; margin:0; padding:0; opacity:0; visibility:hidden; transition:opacity .55s ease; border:0 !important; outline:0 !important; }
+.honey-carousel-slide.is-active { opacity:1; visibility:visible; z-index:1; }
+.honey-carousel-slide img { display:block; width:100%; height:100%; max-width:none; margin:0; padding:0; object-fit:cover; object-position:center; border:0 !important; outline:0 !important; box-shadow:none !important; border-radius:0; }
+.honey-carousel-control { position:absolute; z-index:3; top:50%; transform:translateY(-50%); width:44px; height:44px; border:0; border-radius:50%; background:rgba(36,5,5,.78); color:#fff8e9; font-size:20px; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.honey-carousel-control:hover, .honey-carousel-control:focus-visible { background:#240505; outline:2px solid #e6ad32; outline-offset:2px; }
+.honey-carousel-prev { left:14px; } .honey-carousel-next { right:14px; }
+.honey-carousel-dots { position:absolute; z-index:3; bottom:12px; left:0; right:0; display:flex; justify-content:center; gap:9px; }
+.honey-carousel-dot { width:10px; height:10px; padding:0; border:1px solid #6d171d; border-radius:50%; background:rgba(255,248,233,.8); cursor:pointer; }
+.honey-carousel-dot.is-active { background:#6d171d; box-shadow:0 0 0 2px rgba(255,248,233,.7); }
+@media(max-width:600px) { .honey-carousel { border-radius:10px; } .honey-carousel-track { aspect-ratio:16/7; min-height:150px; max-height:260px; } .honey-carousel-control { width:36px; height:36px; font-size:17px; } .honey-carousel-prev { left:8px; } .honey-carousel-next { right:8px; } }

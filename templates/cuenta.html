@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block contenido %}
+<div class="row justify-content-center"><div class="col-md-7 col-lg-5"><section class="form-card p-4 p-md-5">
+<h1 class="section-title">{% if modo == 'registro' %}Crear cuenta 🍯{% else %}Iniciar sesión 🔐{% endif %}</h1>
+<p class="text-secondary">{% if modo == 'registro' %}Crea tu cuenta para comprar en Librería Honey.{% else %}Entra con la cuenta que ya tienes.{% endif %}</p>
+<form method="post" class="row g-3">
+{% if modo == 'registro' %}<div class="col-12"><label class="form-label">Nombre</label><input name="nombre" class="form-control" required maxlength="100"></div>{% endif %}
+<div class="col-12"><label class="form-label">Correo electrónico</label><input type="email" name="correo" class="form-control" required autocomplete="email"></div>
+<div class="col-12"><label class="form-label">Contraseña</label><input type="password" name="clave" class="form-control" required minlength="8" autocomplete="{% if modo == 'registro' %}new-password{% else %}current-password{% endif %}">{% if modo == 'registro' %}<small class="form-text">Mínimo 8 caracteres.</small>{% endif %}</div>
+<div class="col-12"><button class="btn btn-honey w-100" type="submit">{% if modo == 'registro' %}Crear cuenta{% else %}Entrar{% endif %}</button></div>
+</form><hr>{% if modo == 'registro' %}<p>¿Ya tienes cuenta? <a href="{{ url_for('iniciar_sesion') }}">Inicia sesión</a></p>{% else %}<p>¿Primera vez aquí? <a href="{{ url_for('registro') }}">Crear una cuenta</a></p>{% endif %}
+</section></div></div>{% endblock %}

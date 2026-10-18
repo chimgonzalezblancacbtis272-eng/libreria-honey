@@ -1,0 +1,659 @@
+{% extends 'base.html' %}
+
+
+{% block contenido %}
+
+
+<section class="hero p-4 p-md-5 mb-4">
+
+    <div class="row align-items-center">
+
+        <div class="col-md-8">
+
+            <p class="small text-uppercase fw-bold mb-2">
+                Biblioteca digital
+            </p>
+
+
+            <h1>
+                Bienvenido a LIBRERIA HONEY 🍯
+            </h1>
+
+
+            <p class="lead mb-0">
+
+                Sube tus libros en PDF
+                y organízalos por categoría.
+
+            </p>
+
+        </div>
+
+
+        <div class="col-md-4 text-center display-1">
+
+            📚
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- CARRUSEL DE OFERTAS: solo imágenes, sin texto ni bordes laterales -->
+{% if ofertas %}
+<section class="honey-carousel-wrap mb-5" aria-label="Ofertas y recomendados">
+  <div id="honeyCarousel" class="honey-carousel">
+    <div class="honey-carousel-track">
+      {% for oferta in ofertas[:4] %}
+        {% if oferta.get('imagen_id') %}
+        <div class="honey-carousel-slide{% if loop.first %} is-active{% endif %}">
+          <img src="{{ url_for('imagen_oferta', id=oferta._id) }}" alt="Oferta de Librería Honey" loading="{% if loop.first %}eager{% else %}lazy{% endif %}">
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <button class="honey-carousel-control honey-carousel-prev" type="button" aria-label="Imagen anterior">&#10094;</button>
+    <button class="honey-carousel-control honey-carousel-next" type="button" aria-label="Imagen siguiente">&#10095;</button>
+    <div class="honey-carousel-dots" aria-label="Elegir imagen">
+      {% for oferta in ofertas[:4] %}
+        {% if oferta.get('imagen_id') %}<button type="button" class="honey-carousel-dot{% if loop.first %} is-active{% endif %}" aria-label="Mostrar imagen {{ loop.index }}" aria-current="{% if loop.first %}true{% else %}false{% endif %}"></button>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ============================= -->
+<!-- CATEGORÍAS -->
+<!-- ============================= -->
+
+<section class="mb-5">
+
+
+    <div class="d-flex justify-content-between
+                align-items-center mb-3">
+
+        <h2 class="section-title mb-0">
+            Categorías
+        </h2>
+
+
+        <a
+            class="btn btn-sm btn-outline-dark"
+            href="{{ url_for('inicio') }}"
+        >
+            Ver todos
+        </a>
+
+    </div>
+
+
+
+    <div class="row g-3">
+
+
+        <!-- ESCUELA -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <a
+                class="category-card escuela"
+                href="{{ url_for(
+                    'inicio',
+                    categoria='Libros de la escuela', _anchor='libros'
+                ) }}"
+            >
+
+                <span class="emoji">
+                    🎓
+                </span>
+
+
+                <h3>
+                    Libros de la escuela
+                </h3>
+
+
+                <span>
+                    {{ cantidades['Libros de la escuela'] }}
+                    libro(s)
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- FICCIÓN -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <a
+                class="category-card ficcion"
+                href="{{ url_for(
+                    'inicio',
+                    categoria='Ficción', _anchor='libros'
+                ) }}"
+            >
+
+                <span class="emoji">
+                    ✨
+                </span>
+
+
+                <h3>
+                    Ficción
+                </h3>
+
+
+                <span>
+                    {{ cantidades['Ficción'] }}
+                    libro(s)
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- TERROR -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <a
+                class="category-card terror"
+                href="{{ url_for(
+                    'inicio',
+                    categoria='Terror', _anchor='libros'
+                ) }}"
+            >
+
+                <span class="emoji">
+                    🌙
+                </span>
+
+
+                <h3>
+                    Terror
+                </h3>
+
+
+                <span>
+                    {{ cantidades['Terror'] }}
+                    libro(s)
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- ROMANCE -->
+
+        <div class="col-md-6 col-lg-3">
+
+            <a
+                class="category-card romance"
+                href="{{ url_for(
+                    'inicio',
+                    categoria='Romance', _anchor='libros'
+                ) }}"
+            >
+
+                <span class="emoji">
+                    💗
+                </span>
+
+
+                <h3>
+                    Romance
+                </h3>
+
+
+                <span>
+                    {{ cantidades['Romance'] }}
+                    libro(s)
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ============================= -->
+<!-- SUBIR LIBRO -->
+<!-- ============================= -->
+
+{% if usuario_actual and usuario_actual.get('rol') == 'admin' %}
+<section
+    id="agregar"
+    class="form-card p-4 mb-5"
+>
+
+
+    <h2 class="section-title">
+
+        Subir un libro 📖
+
+    </h2>
+
+
+    <p class="text-secondary">
+
+        Selecciona el PDF,
+        escribe su nombre
+        y elige el área.
+
+    </p>
+
+
+
+    <form
+
+        method="post"
+
+        action="{{ url_for('agregar') }}"
+
+        enctype="multipart/form-data"
+
+        class="row g-3"
+
+    >
+
+
+        <!-- NOMBRE -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+
+                Nombre del libro
+
+            </label>
+
+
+            <input
+
+                name="titulo"
+
+                class="form-control"
+
+                required
+
+                maxlength="150"
+
+                placeholder="Ejemplo: El principito"
+
+            >
+
+        </div>
+
+
+
+        <!-- CATEGORÍA -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+
+                Área / categoría
+
+            </label>
+
+
+            <select
+
+                name="categoria"
+
+                class="form-select"
+
+                required
+
+            >
+
+                <option value="">
+
+                    Selecciona una categoría
+
+                </option>
+
+
+                {% for cat in categorias %}
+
+                <option value="{{ cat }}">
+
+                    {{ cat }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+
+        <div class="col-12">
+            <label class="form-label">Imagen de portada (opcional)</label>
+            <input id="portada-nueva" type="file" name="portada" class="form-control" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
+            <div class="form-text">Elige una foto de tu dispositivo (JPG, PNG o WEBP). La imagen se guardará con el libro.</div>
+            <div class="portada-preview-wrap mt-3" id="portada-preview-wrap" hidden>
+                <span class="form-text d-block mb-2">Vista previa de la portada:</span>
+                <img id="portada-preview" class="portada-preview" alt="Vista previa de la portada elegida">
+            </div>
+        </div>
+
+        <!-- PDF -->
+
+        <div class="col-12">
+
+            <label class="form-label">
+
+                PDF del libro
+
+            </label>
+
+
+            <input
+
+                type="file"
+
+                name="pdf"
+
+                class="form-control"
+
+                accept="application/pdf,.pdf"
+
+                required
+
+            >
+
+
+            <div class="form-text">
+
+                Solo PDF. Máximo 25 MB.
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BOTONES -->
+
+        <div class="col-12">
+
+            <button
+
+                class="btn btn-honey px-4"
+
+                type="submit"
+
+            >
+
+                Subir libro 🍯
+
+            </button>
+
+
+            <button
+
+                class="btn btn-outline-secondary"
+
+                type="reset"
+
+            >
+
+                Limpiar
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+</section>
+{% endif %}
+
+
+<!-- ============================= -->
+<!-- LIBROS -->
+<!-- ============================= -->
+
+<section id="libros">
+
+
+    <div
+        class="d-flex justify-content-between
+               align-items-center mb-3
+               flex-wrap gap-2"
+    >
+
+        <div>
+
+            <h2 class="section-title mb-1">
+
+                {% if categoria_actual %}
+
+                    {{ categoria_actual }}
+
+                {% else %}
+
+                    Todos los libros
+
+                {% endif %}
+
+            </h2>
+
+
+            <p class="text-secondary mb-0">
+                {{ libros|length }} libro(s) encontrado(s). Usa los botones de cada tarjeta para leer, editar o eliminar.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <form method="get" action="{{ url_for('inicio') }}" class="search-bar mb-4 d-flex gap-2">
+      {% if categoria_actual %}<input type="hidden" name="categoria" value="{{ categoria_actual }}">{% endif %}
+      <input class="form-control" type="search" name="q" value="{{ busqueda }}" placeholder="Buscar libros por título..." aria-label="Buscar libros">
+      <button class="btn btn-honey" type="submit">Buscar</button>
+      {% if busqueda %}<a class="btn btn-outline-light" href="{{ url_for('inicio', categoria=categoria_actual or None, _anchor='libros') }}">Limpiar</a>{% endif %}
+    </form>
+    <div class="row g-4">
+
+
+        {% for libro in libros %}
+
+
+        <div class="col-md-6 col-lg-4">
+
+
+            <article class="book-card h-100">
+                <a class="book-cover {{ libro.categoria|lower|replace(' ', '-') }}" href="{{ url_for('ver_pdf', id=libro._id) }}" target="_blank" rel="noopener" aria-label="Leer {{ libro.titulo }}">
+                    {% if libro.get('portada_id') %}
+                        <img src="{{ url_for('ver_portada', id=libro._id) }}" alt="Portada de {{ libro.titulo }}">
+                        <span class="cover-image-title">{{ libro.titulo }}</span>
+                    {% else %}
+                        <span class="cover-decoration">{% if libro.categoria == 'Libros de la escuela' %}🎓{% elif libro.categoria == 'Ficción' %}✨{% elif libro.categoria == 'Terror' %}🌙{% else %}💗{% endif %}</span>
+                        <span class="cover-label">LIBRERÍA HONEY</span>
+                        <strong>{{ libro.titulo }}</strong>
+                        <span class="cover-cta">Abrir libro ↗</span>
+                    {% endif %}
+                </a>
+
+                <div
+                    class="p-4 d-flex
+                           flex-column h-100"
+                >
+
+
+                    <span
+                        class="badge
+                               badge-category
+                               align-self-start"
+                    >
+
+                        {{ libro.categoria }}
+
+                    </span>
+
+
+
+                    <h3 class="h5 mt-3 mb-1">
+
+                        {{ libro.titulo }}
+
+                    </h3>
+
+
+
+                    <p class="pdf-name">
+
+                        {{ libro.get(
+                            'nombre_pdf',
+                            'Libro PDF'
+                        ) }}
+
+                    </p>
+
+
+
+                    <div class="book-actions mt-3" aria-label="Acciones para {{ libro.titulo }}">
+                        <a class="btn btn-honey" target="_blank" rel="noopener"
+                           href="{{ url_for('ver_pdf', id=libro._id) }}">
+                            📖 Leer PDF
+                        </a>
+
+                        {% if usuario_actual and usuario_actual.get('rol') == 'admin' %}
+                        <a class="btn btn-edit-book" href="{{ url_for('editar', id=libro._id) }}">✏️ Editar</a>
+                        <form class="delete-book-form" method="post" action="{{ url_for('eliminar', id=libro._id) }}" onsubmit="return confirm('¿Seguro que quieres eliminar este libro?');">
+                            <button class="btn btn-delete-book" type="submit">🗑️ Eliminar</button>
+                        </form>
+                        {% endif %}
+                    </div>
+
+
+                </div>
+
+
+            </article>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="col-12">
+
+
+            <div
+                class="empty-state
+                       text-center p-5"
+            >
+
+                <div class="display-3">
+
+                    📚
+
+                </div>
+
+
+                <h3>
+
+                    No hay libros todavía
+
+                </h3>
+
+
+                <p class="text-secondary">
+
+                    Sube el primer PDF
+                    usando el formulario de arriba.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+</section>
+
+
+<script>
+(() => {
+  const carousel = document.getElementById('honeyCarousel');
+  if (!carousel) return;
+  const slides = Array.from(carousel.querySelectorAll('.honey-carousel-slide'));
+  const dots = Array.from(carousel.querySelectorAll('.honey-carousel-dot'));
+  if (slides.length <= 1) {
+    carousel.querySelectorAll('.honey-carousel-control, .honey-carousel-dots').forEach(el => el.hidden = true);
+    return;
+  }
+  let index = 0;
+  let timer;
+  const show = (next) => {
+    index = (next + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('is-active', i === index);
+      dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+    });
+  };
+  const start = () => { clearInterval(timer); timer = setInterval(() => show(index + 1), 4000); };
+  carousel.querySelector('.honey-carousel-prev').addEventListener('click', () => { show(index - 1); start(); });
+  carousel.querySelector('.honey-carousel-next').addEventListener('click', () => { show(index + 1); start(); });
+  dots.forEach((dot, i) => dot.addEventListener('click', () => { show(i); start(); }));
+  carousel.addEventListener('mouseenter', () => clearInterval(timer));
+  carousel.addEventListener('mouseleave', start);
+  carousel.addEventListener('focusin', () => clearInterval(timer));
+  carousel.addEventListener('focusout', start);
+  show(0); start();
+})();
+</script>
+
+<script>
+(() => {
+  const input = document.getElementById('portada-nueva');
+  const preview = document.getElementById('portada-preview');
+  const wrap = document.getElementById('portada-preview-wrap');
+  if (!input || !preview || !wrap) return;
+  let currentUrl = null;
+  input.addEventListener('change', () => {
+    const file = input.files && input.files[0];
+    if (currentUrl) URL.revokeObjectURL(currentUrl);
+    if (!file) { wrap.hidden = true; preview.removeAttribute('src'); return; }
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      input.value = ''; wrap.hidden = true; alert('Elige una imagen JPG, PNG o WEBP.'); return;
+    }
+    currentUrl = URL.createObjectURL(file);
+    preview.src = currentUrl; wrap.hidden = false;
+  });
+})();
+</script>
+
+{% endblock %}

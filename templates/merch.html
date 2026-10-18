@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block contenido %}
+<section class="hero p-4 mb-4"><h1>Merch de Librería Honey 🍯</h1><p class="mb-0">Libros físicos y mercancía especial. La lectura digital sigue siendo gratuita.</p></section>
+<form method="get" class="search-bar d-flex gap-2 mb-4"><input class="form-control" type="search" name="q" value="{{ busqueda }}" placeholder="Buscar merch o libros físicos..."><button class="btn btn-honey">Buscar</button></form>
+<div class="row g-4">{% for item in items %}<div class="col-md-6 col-lg-4"><article class="book-card h-100">
+{% if item.get('imagen_id') %}<img class="merch-cover" src="{{ url_for('imagen_merch',id=item._id) }}" alt="{{ item.nombre }}">{% else %}<div class="merch-placeholder">🛍️</div>{% endif %}
+<div class="p-4"><span class="badge badge-category">{{ item.get('tipo','Mercancía') }}</span><h2 class="h5 mt-2">{{ item.nombre }}</h2><p>{{ item.descripcion }}</p><p class="price-tag">${{ '%.2f'|format(item.precio) }} MXN</p><p class="text-secondary">{% if item.stock > 0 %}Stock: {{ item.stock }}{% else %}Agotado{% endif %}</p>
+{% if item.stock > 0 %}<form method="post" action="{{ url_for('agregar_carrito',id=item._id) }}"><button class="btn btn-honey w-100">Añadir al carrito 🛒</button></form>{% else %}<button class="btn btn-secondary w-100" disabled>Agotado</button>{% endif %}</div></article></div>{% else %}<div class="col-12"><div class="empty-state text-center p-5"><h2>Aún no hay mercancía</h2><p>Cuando el administrador agregue productos aparecerán aquí.</p></div></div>{% endfor %}</div>
+{% endblock %}

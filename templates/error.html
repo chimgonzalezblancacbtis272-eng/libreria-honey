@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block contenido %}
+
+
+<div
+    class="empty-state
+           text-center p-5"
+>
+
+
+    <div class="display-3">
+
+        ⚠️
+
+    </div>
+
+
+    <h1>
+
+        Ocurrió un problema
+
+    </h1>
+
+
+    <p>
+
+        {{ mensaje }}
+
+    </p>
+
+
+    <a
+
+        class="btn btn-honey"
+
+        href="{{ url_for('inicio') }}"
+
+    >
+
+        Volver al inicio
+
+    </a>
+
+
+</div>
+
+
+{% endblock %}
